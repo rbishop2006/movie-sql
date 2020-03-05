@@ -164,23 +164,27 @@ LIKE '%(2005)%'
 SELECT movies.title, ratings.rating
 FROM Movies
   LEFT JOIN ratings ON movies.id = ratings.movie_id
-WHERE NOT ratings.rating
+WHERE ISNULL(ratings.rating)
 
 --19.
-SELECT AVG(rating)
-FROM movies.ratings
+SELECT movies.title, AVG(ratings.rating)
+FROM movies
+  LEFT JOIN ratings ON ratings.movie_id = movies.id
 WHERE movie_id = 31
+GROUP BY movies.title
 
 --20.
-SELECT SUM(rating)
-FROM movies.ratings
+SELECT movies.title, COUNT(ratings.rating)
+FROM movies
+  LEFT JOIN ratings ON ratings.movie_id = movies.id
 WHERE movie_id = 31
+GROUP BY movies.title
 
 --21.
-SELECT SUM(title)
+SELECT movies.genres, COUNT(movies.genres)
 FROM Movies.movies
-WHERE genres
-LIKE '%action%'
+WHERE movies.genres = 'Action'
+GROUP BY movies.genres
 
 --22.
 SELECT AVG(rating)
